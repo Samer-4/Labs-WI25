@@ -23,6 +23,8 @@ class Node:
             end (Node): the end node
         """
         # TODO your code here
+        self.children.append(end)
+        end.parents.append(self)
         ...
 
     def add_undirected_edge(self, end: "Node"):
@@ -35,6 +37,8 @@ class Node:
             end (Node): the end node
         """
         # TODO your code here
+        self.add_directed_edge(end)
+        end.add_directed_edge(self)
         ...
 
     def __repr__(self):
@@ -85,6 +89,12 @@ class Graph:
             directed (bool): whether the edge is directed or not, default is True
         """
         # TODO your code here
+        self.add_node(start)
+        self.add_node(end)
+        if directed:
+            start.add_directed_edge(end)
+        else:
+            start.add_undirected_edge(end)
         ...
 
 
@@ -111,6 +121,22 @@ class Tree(Graph):
         Returns: (bool) whether the tree is valid or not
         """
         # TODO your code here
+        if not self.root:
+            return False
+
+        visited = set()
+
+        def dfs(node):
+            if node in visited:
+                return False
+            visited.add(node)
+            for child in node.children:
+                if not dfs(child):
+                    return False
+            return True
+
+        return dfs(self.root) and len(visited) == len(self.nodes)
+
         ...
 
 
@@ -154,6 +180,26 @@ class BinarySearchTree(Tree):
             return
         current = self.root
         # TODO your code here
+        if not self.root:
+            self.root = node
+            self.nodes.add(node)
+            return
+
+        current = self.root
+        while current:
+            if node.value < current.value:
+                if current.left is None:
+                    current.add_left_child(node)
+                    self.nodes.add(node)
+                    return
+                current = current.left
+            else:
+                if current.right is None:
+                    current.add_right_child(node)
+                    self.nodes.add(node)
+                    return
+                current = current.right
+
         ...
 
     def validate_bst(self) -> bool:
@@ -168,4 +214,14 @@ class BinarySearchTree(Tree):
             - The right child of a node must be greater than the parent node
         """
         # TODO your code here
+        def validate(node, min_value, max_value):
+            if not node:
+                return True
+            if not (min_value < node.value < max_value):
+                return False
+            return (validate(node.left, min_value, node.value) and
+                    validate(node.right, node.value, max_value))
+
+        return validate(self.root, float("-inf"), float("inf"))
+
         ...
