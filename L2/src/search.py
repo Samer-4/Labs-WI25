@@ -1,7 +1,6 @@
 from src.graph import Node, Graph, Tree, BinarySearchTree
 from typing import List, Tuple
 
-
 def bfs(g: Graph, target: Node | None = None) -> Tuple[List[Node], bool]:
     """
     Perform a breadth-first search on the graph starting from the root node.
@@ -33,7 +32,6 @@ def bfs(g: Graph, target: Node | None = None) -> Tuple[List[Node], bool]:
         # END SOLUTION
     return visited, found
 
-
 def dfs(g: Graph, target: Node | None = None) -> Tuple[List[Node], bool]:
     """
     Perform a depth-first search on the graph starting from the root node.
@@ -56,8 +54,10 @@ def dfs(g: Graph, target: Node | None = None) -> Tuple[List[Node], bool]:
         visited.append(node)
         if node == target:
             found = True
+            break
         for neighbor in node.children[::-1]:  # reverse to maintain order
             if neighbor not in visited and neighbor not in stack:
                 stack.append(neighbor)
     return visited, found
     # END SOLUTION
+
