@@ -108,18 +108,15 @@ def update_board():
     Returns:
         List[Tuple[int, int]]: List of queen positions
     """
+    # Initialize the board
     board = [[0] * BOARD_SIZE for _ in range(BOARD_SIZE)]
 
-    # Ensure the board is valid and solvable
+    # Attempt to solve the problem and check for solvability
     if not solve_8_queens(board, 0):
-        return []  # Return empty if no solution exists
+        return []  # Return empty list if no solution exists
 
-    # Prepare the list of queen positions
-    queen_positions = []
-    for i in range(BOARD_SIZE):
-        for j in range(BOARD_SIZE):
-            if board[i][j] == 1:
-                queen_positions.append((i, j))
+    # Convert the board to a list of queen positions
+    queen_positions = [(i, j) for i in range(BOARD_SIZE) for j in range(BOARD_SIZE) if board[i][j] == 1]
 
     return queen_positions
 
@@ -132,14 +129,17 @@ def main():
     screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
     pygame.display.set_caption("8 Queens Puzzle")
 
-    running = True
+    # Get the queen positions
     queen_positions = update_board()
 
+    # Main game loop
+    running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
+        # Draw the board and queens
         draw_board(screen)
         if queen_positions:
             place_queens(screen, queen_positions)
@@ -151,3 +151,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
