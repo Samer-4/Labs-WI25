@@ -109,6 +109,8 @@ def update_board():
         List[Tuple[int, int]]: List of queen positions
     """
     board = [[0] * BOARD_SIZE for _ in range(BOARD_SIZE)]
+
+    # Ensure the board is valid and solvable
     if not solve_8_queens(board, 0):
         return []  # Return empty if no solution exists
 
@@ -132,13 +134,15 @@ def main():
 
     running = True
     queen_positions = update_board()
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
         draw_board(screen)
-        place_queens(screen, queen_positions)
+        if queen_positions:
+            place_queens(screen, queen_positions)
         pygame.display.update()
 
     pygame.quit()
