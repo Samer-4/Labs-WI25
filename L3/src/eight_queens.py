@@ -9,9 +9,18 @@ SQUARE_SIZE = 75  # This sets the size of the chessboard squares
 WINDOW_SIZE = BOARD_SIZE * SQUARE_SIZE
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
 
 
 def draw_board(screen: Surface, board_size: int = BOARD_SIZE, square_size: int = SQUARE_SIZE):
+    """
+    Draw the chessboard.
+
+    Args:
+        screen: Surface: pygame screen
+        board_size (int, optional): board_size in number of box. Defaults to BOARD_SIZE.
+        square_size (int, optional): square_size in number of box. Defaults to SQUARE_SIZE.
+    """
     for row in range(board_size):
         for col in range(board_size):
             color = WHITE if (row + col) % 2 == 0 else BLACK
@@ -19,10 +28,14 @@ def draw_board(screen: Surface, board_size: int = BOARD_SIZE, square_size: int =
 
 
 def place_queens(screen: Surface, queen_positions: List[Tuple[int, int]]):
-    queen_image = pygame.image.load("queen.png")
-    queen_image = pygame.transform.scale(queen_image, (SQUARE_SIZE, SQUARE_SIZE))
+    """
+    Place queens on the board based on the given positions.
+
+    Args:
+        queen_positions: List of tuples, each tuple is (row, col) for a queen's position
+    """
     for pos in queen_positions:
-        screen.blit(queen_image, (pos[1] * SQUARE_SIZE, pos[0] * SQUARE_SIZE))
+        pygame.draw.circle(screen, GREEN, (pos[1] * SQUARE_SIZE + SQUARE_SIZE // 2, pos[0] * SQUARE_SIZE + SQUARE_SIZE // 2), SQUARE_SIZE // 3)
 
 
 def is_safe_row_diag(board, row, col) -> bool:
@@ -110,18 +123,21 @@ def update_board():
 
 
 def main():
+    """
+    Main function to initialize the pygame window and visualize the solution.
+    """
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
     pygame.display.set_caption("8 Queens Puzzle")
 
     running = True
+    queen_positions = update_board()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
         draw_board(screen)
-        queen_positions = update_board()
         place_queens(screen, queen_positions)
         pygame.display.update()
 
