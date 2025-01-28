@@ -58,12 +58,12 @@ def is_safe_row_diag(board, row, col) -> bool:
 
     # Check the upper diagonal on the left side
     for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if board[i][j] == 1:
+        if 0 <= i < BOARD_SIZE and 0 <= j < BOARD_SIZE and board[i][j] == 1:
             return False
 
     # Check the lower diagonal on the left side
     for i, j in zip(range(row, BOARD_SIZE), range(col, -1, -1)):
-        if board[i][j] == 1:
+        if 0 <= i < BOARD_SIZE and 0 <= j < BOARD_SIZE and board[i][j] == 1:
             return False
 
     return True
