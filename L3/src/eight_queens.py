@@ -25,7 +25,7 @@ def place_queens(screen: Surface, queen_positions: List[Tuple[int, int]]):
         screen.blit(queen_image, (pos[1] * SQUARE_SIZE, pos[0] * SQUARE_SIZE))
 
 
-def is_safe(board, row, col) -> bool:
+def is_safe_row_diag(board, row, col) -> bool:
     """
     Check if it's safe to place a queen at board[row][col].
     This checks the row, upper diagonal, and lower diagonal.
@@ -73,7 +73,7 @@ def solve_8_queens(board: List[List[int]], col: int) -> bool:
 
     # Try placing a queen in each row of the current column
     for row in range(BOARD_SIZE):
-        if is_safe(board, row, col):
+        if is_safe_row_diag(board, row, col):
             # Place the queen
             board[row][col] = 1
 
