@@ -67,14 +67,14 @@ def empirical_egreedy(epsilon: float, n_trials: int, n_arms: int, n_plays: int) 
     rewards = []  # stores the rewards for each trial
 
     for _ in range(n_trials):
-        true_v = np.random.rand(n_arms)  # True reward probabilities for each arm
-        q_estimate_values = np.zeros(n_arms)  # Estimated Q-values
-        action_count = np.zeros(n_arms)  # Number of times each arm is played
+        true_v = np.random.rand(n_arms)  
+        q_estimate_values = np.zeros(n_arms)  
+        action_count = np.zeros(n_arms) 
         trial_reward = []
         
         for _ in range(n_plays):
             action = egreedy(q_estimate_values, epsilon)
-            reward = 1 if np.random.rand() < true_v[action] else 0  # Simulate reward
+            reward = 1 if np.random.rand() < true_v[action] else 0  
             action_count[action] += 1
             q_estimate_values[action] = update(q_estimate_values[action], reward, action_count[action] - 1)
             trial_reward.append(reward)
